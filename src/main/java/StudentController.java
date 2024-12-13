@@ -12,7 +12,7 @@ class StudentController {
     }
 
     public void updateStudent(int id, String name, String major) {
-        repository.update(id, new Student(id, name, major));
+        repository.update(new Student(id, name, major));
     }
 
     public void deleteStudent(int id) {
