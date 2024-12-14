@@ -1,32 +1,14 @@
-import java.util.ArrayList;
 import java.util.List;
 
-class StudentRepository {
-    private final List<Student> students = new ArrayList<>();
-    private int nextId = 1;
-
-    public List<Student> findAll() {
-        return new ArrayList<>(students);
-    }
-
-    public Student findById(int id) {
-        return students.stream().filter(student -> student.getId() == id).findFirst().orElse(null);
-    }
-
-    public void save(Student student) {
-        student = new Student(nextId++, student.getName(), student.getMajor());
-        students.add(student);
-    }
-
-    public void update(int id, Student updatedStudent) {
-        Student student = findById(id);
-        if (student != null) {
-            student.setName(updatedStudent.getName());
-            student.setMajor(updatedStudent.getMajor());
-        }
-    }
-
-    public void delete(int id) {
-        students.removeIf(student -> student.getId() == id);
-    }
+interface StudentRepository {
+    // 모든 학생정보 조회
+    List<Student> findAll();
+    // 학생 ID로 학생정보 조회
+    Student findById(int id);
+    // 학생정보 저장
+    void save(Student student);
+    // 학생정보 수정
+    void update(int id, Student updatedStudent);
+    // 학생정보 삭제
+    void delete(int id);
 }
