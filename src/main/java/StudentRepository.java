@@ -1,67 +1,14 @@
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-
 import java.util.List;
 
-class StudentRepository {
-    private final EntityManagerFactory entityManagerFactory;
-
-    public StudentRepository() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("student_pu");
-    }
-
-    public List<Student> findAll() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            return entityManager.createQuery("SELECT s FROM Student s", Student.class).getResultList();
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    public Student findById(int id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            return entityManager.find(Student.class, id);
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    public void save(Student student) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(student);
-            entityManager.getTransaction().commit();
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    public void update(Student student) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.merge(student);
-            entityManager.getTransaction().commit();
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    public void delete(int id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            entityManager.getTransaction().begin();
-            Student student = entityManager.find(Student.class, id);
-            if (student != null) {
-                entityManager.remove(student);
-            }
-            entityManager.getTransaction().commit();
-        } finally {
-            entityManager.close();
-        }
-    }
+interface StudentRepository {
+    // 모든 학생정보 조회
+    List<Student> findAll();
+    // 학생 ID로 학생정보 조회
+    Student findById(int id);
+    // 학생정보 저장
+    void save(Student student);
+    // 학생정보 수정
+    void update(Student updatedStudent);
+    // 학생정보 삭제
+    void delete(int id);
 }
